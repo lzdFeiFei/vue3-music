@@ -12,12 +12,12 @@ const routes: Array<RouteRecordRaw> = [
   // },
   {
     path: '/',
-    redirect: '/recommand',
+    redirect: '/recommend',
   },
   {
     path: '/recommend',
-    name: 'Recommand',
-    component: () => import('@/views/recommand/index.vue'),
+    name: 'recommend',
+    component: () => import('@/views/recommend/index.vue'),
   },
   {
     path: '/singer',
