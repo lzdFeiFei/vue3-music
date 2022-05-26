@@ -4,7 +4,7 @@ import { ref, Ref, onMounted, onUnmounted } from 'vue'
 
 BScroll.use(Slide)
 const useSlide = (wrapperRef: Ref<HTMLDivElement | null>) => {
-  const slider = ref<any>(null)
+  const slider = ref<BScroll>()
   const currentPageIndex = ref(0)
 
   onMounted(() => {
@@ -20,13 +20,13 @@ const useSlide = (wrapperRef: Ref<HTMLDivElement | null>) => {
         slide: true,
       }
     ))
-    sliderVal.on('slideWillChange', (page: any) => {
+    sliderVal.on('slideWillChange', (page: { pageX: number }) => {
       currentPageIndex.value = page.pageX
     })
   })
 
   onUnmounted(() => {
-    slider.value.destroy()
+    slider.value?.destroy()
   })
 
   return {
