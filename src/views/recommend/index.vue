@@ -1,10 +1,28 @@
 <template>
-  <div>
-    <div class="slider-wrapper">
-      <div class="slider-content">
-        <slider v-if="sliders.length" :sliders="sliders"></slider>
+  <div class="recommend">
+    <Scroll class="recommend-content">
+      <div>
+        <div class="slider-wrapper">
+          <div class="slider-content">
+            <Slider v-if="sliders.length" :sliders="sliders"></Slider>
+          </div>
+        </div>
+        <div class="recommend-list">
+          <h1 class="list-title">热门歌单推荐</h1>
+          <ul>
+            <li class="item" v-for="item in albums" :key="item.id">
+              <div class="icon">
+                <img width="60" height="60" :src="item.pic" />
+              </div>
+              <div class="text">
+                <h2 class="name">{{ item.username }}</h2>
+                <p class="title">{{ item.title }}</p>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
+    </Scroll>
   </div>
 </template>
 
@@ -12,9 +30,13 @@
 import { ref } from 'vue'
 import { getRecommend } from '@/service/recommends'
 import Slider from '@/components/Slider/Slider.vue'
+import Scroll from '@/components/Scroll/Scroll.vue'
+
 const sliders = ref<any>([])
+const albums = ref<any>([])
 getRecommend().then((res: any) => {
   sliders.value = res.sliders
+  albums.value = res.albums
 })
 </script>
 
