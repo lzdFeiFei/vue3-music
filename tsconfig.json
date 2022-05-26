@@ -11,10 +11,10 @@
     "forceConsistentCasingInFileNames": true,
     "useDefineForClassFields": true,
     "sourceMap": true,
-    "baseUrl": "./",
+    "baseUrl": ".",
     "types": ["webpack-env"],
     "paths": {
-      "@/*": ["./src/*"],
+      "@/*": ["src/*"],
       "@service": ["./src/service/*"]
     },
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
