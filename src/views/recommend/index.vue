@@ -1,5 +1,5 @@
 <template>
-  <div class="recommend">
+  <div class="recommend" v-loading:[loadingText]="loading">
     <Scroll class="recommend-content">
       <div>
         <div class="slider-wrapper">
@@ -31,12 +31,14 @@ import { ref } from 'vue'
 import { getRecommend } from '@/service/recommends'
 import Slider from '@/components/Slider/Slider.vue'
 import Scroll from '@/components/Scroll/Scroll.vue'
-
+const loadingText = '123'
+const loading = ref(true)
 const sliders = ref<any>([])
 const albums = ref<any>([])
 getRecommend().then((res: any) => {
   sliders.value = res.sliders
   albums.value = res.albums
+  // loading.value = false
 })
 </script>
 
