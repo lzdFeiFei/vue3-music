@@ -1,7 +1,7 @@
 <template>
-  <Scroll class="index-list" ref="scrollRef">
+  <Scroll class="index-list" ref="scrollRef" @scroll="onScroll" :probe-type="3">
     <ul ref="groupRef">
-      <li class="group" v-for="group in data" :key="group.title">
+      <li class="group" v-for="group in props.data" :key="group.title">
         <h2 class="title">{{ group.title }}</h2>
         <ul>
           <li v-for="item in group.list" :key="item.id" class="item">
@@ -12,19 +12,28 @@
         </ul>
       </li>
     </ul>
-    <!-- <div class="fixed" v-show="fixedTitle" :style="fixedStyle">
-        <div class="fixed-title">{{ fixedTitle }}</div>
-      </div> -->
+    <div class="fixed" v-show="fixedTitle" :style="fixedStyle">
+      <div class="fixed-title">{{ fixedTitle }}</div>
+    </div>
   </Scroll>
 </template>
 
 <script setup lang="ts">
 import Scroll from '../Scroll/Scroll.vue'
-import { ref, defineProps } from 'vue'
+import { ref, defineProps, PropType } from 'vue'
+import useFixed from './use-fixed'
 // eslint-disable-next-line vue/no-setup-props-destructure
-const { data = [] } = defineProps<{
-  data: any[]
-}>()
+// const { data = [] } = defineProps<{
+//   data: any[]
+// }>()
+const props = defineProps({
+  data: {
+    type: Array as PropType<any[]>,
+    default: () => [],
+  },
+})
+
+const { groupRef, onScroll, fixedTitle, fixedStyle } = useFixed(props)
 </script>
 
 <style lang="scss" scoped>

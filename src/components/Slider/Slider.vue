@@ -1,7 +1,7 @@
 <template>
   <div class="slider" ref="rootRef">
     <div class="slider-group">
-      <div class="slider-page" v-for="item in sliders" :key="item.id">
+      <div class="slider-page" v-for="item in props.sliders" :key="item.id">
         <a :href="item.link">
           <img :src="item.pic" />
         </a>
@@ -10,7 +10,7 @@
     <div class="dots-wrapper">
       <span
         class="dot"
-        v-for="(item, index) in sliders"
+        v-for="(item, index) in props.sliders"
         :key="item.id"
         :class="{ active: currentPageIndex === index }"
       ></span>
@@ -25,9 +25,8 @@ export default {
 </script> -->
 <script setup lang="ts">
 import { defineProps, ref } from 'vue'
-import useSlide from './useSlide'
-// eslint-disable-next-line vue/no-setup-props-destructure
-const { sliders = [] } = defineProps<{
+import useSlide from './use-slide'
+const props = defineProps<{
   sliders: any[]
 }>()
 

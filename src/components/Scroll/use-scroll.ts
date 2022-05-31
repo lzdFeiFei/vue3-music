@@ -5,17 +5,22 @@ import { ref, Ref, onMounted, onUnmounted } from 'vue'
 BScroll.use(ObserveDom)
 export default function useScroll(
   wrapperRef: Ref<HTMLDivElement | null>,
-  options: Options
+  options: Options,
+  emit: any
 ) {
   const scroll = ref<BScroll>()
   onMounted(() => {
-    const scrollVal = (scroll.value = new BScroll(
-      wrapperRef.value as HTMLDivElement,
-      {
-        observeDOM: true,
-        ...options,
-      }
-    ))
+    scroll.value = new BScroll(wrapperRef.value as HTMLDivElement, {
+      observeDOM: true,
+      ...options,
+    })
+    const scrollVal = scroll.value as BScroll
+
+    if ((options.probeType as number) > 0) {
+      scrollVal.on('scroll', (pos: any) => {
+        emit('scroll', pos)
+      })
+    }
   })
   onUnmounted(() => {
     scroll.value?.destroy()

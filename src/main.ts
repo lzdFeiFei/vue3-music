@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import lazyPlugin from 'vue3-lazy'
-import loadingDirective from './components/Loading/loadingDirective'
+import loadingDirective from './components/Loading/loading-directive'
 
 import '@/assets/scss/index.scss'
 
