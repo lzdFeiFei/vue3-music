@@ -1,10 +1,11 @@
 import BScroll, { Options } from '@better-scroll/core'
 import ObserveDom from '@better-scroll/observe-dom'
 import { ref, Ref, onMounted, onUnmounted } from 'vue'
+import { DivRef } from '../type'
 
 BScroll.use(ObserveDom)
 export default function useScroll(
-  wrapperRef: Ref<HTMLDivElement | null>,
+  wrapperRef: Ref<DivRef>,
   options: Options,
   emit: any
 ) {

@@ -1,20 +1,22 @@
-import { createApp, DirectiveBinding, ComponentPublicInstance } from 'vue'
+import { createApp, DirectiveBinding } from 'vue'
 import Loading from './Loading.vue'
 import { addClass, removeClass } from '@/assets/js/dom'
 
-type El = HTMLElement & { instance: ComponentPublicInstance }
+// type El = HTMLElement & { instance: ComponentPublicInstance }
+type El = HTMLElement & { instance: Loading }
+type Loading = InstanceType<typeof Loading>
 
 const relativeCls = 'g-relative'
 
 const loadingDirective = {
   mounted(el: El, binding: DirectiveBinding) {
     const app = createApp(Loading)
-    const instance = app.mount(document.createElement('div'))
+    const instance = app.mount(document.createElement('div')) as Loading
     el.instance = instance
 
     const title = binding.arg
-    if (typeof title !== undefined) {
-      ;(instance as any).setTitle(title) //TODO 如何优化？
+    if (title !== undefined) {
+      instance.setTitle(title) //TODO 如何优化？
     }
 
     if (binding.value) {

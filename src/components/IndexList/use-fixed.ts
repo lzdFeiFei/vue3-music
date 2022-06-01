@@ -1,8 +1,9 @@
 import { ref, watch, computed, nextTick } from 'vue'
+import { UlRef } from '../type'
 
 export default function useFixed(props: any) {
   const TITLE_HEIGHT = 30
-  const groupRef = ref<HTMLUListElement | null>(null)
+  const UlRef = ref<UlRef>(null)
   const listHeights = ref<number[]>([])
   const scrollY = ref(0)
   const currentIndex = ref(0)
@@ -48,7 +49,7 @@ export default function useFixed(props: any) {
 
   // 获取所有的主题块高度
   function calculate() {
-    const list = groupRef.value?.children as HTMLCollection
+    const list = UlRef.value?.children as HTMLCollection
     const listHeightsVal = listHeights.value
     let height = 0
 
@@ -67,9 +68,10 @@ export default function useFixed(props: any) {
   }
 
   return {
-    groupRef,
+    UlRef,
     onScroll,
     fixedTitle,
     fixedStyle,
+    currentIndex,
   }
 }
