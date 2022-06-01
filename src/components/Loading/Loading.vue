@@ -7,7 +7,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<!-- <script lang="ts">
 import { ref, defineComponent } from 'vue'
 export default defineComponent({
   // data() {
@@ -31,6 +31,16 @@ export default defineComponent({
       setTitle,
     }
   },
+}) -->
+<!-- </script> -->
+<script setup lang="ts">
+import { ref, defineExpose } from 'vue'
+const title = ref('zhengzai')
+const setTitle = (newTitle: string) => {
+  title.value = newTitle
+}
+defineExpose({
+  setTitle,
 })
 </script>
 
