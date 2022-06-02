@@ -16,7 +16,7 @@ const loadingDirective = {
 
     const title = binding.arg
     if (title !== undefined) {
-      instance.setTitle(title) //TODO 如何优化？
+      instance.setTitle(title)
     }
 
     if (binding.value) {

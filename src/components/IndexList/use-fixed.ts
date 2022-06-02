@@ -3,7 +3,7 @@ import { UlRef } from '../type'
 
 export default function useFixed(props: any) {
   const TITLE_HEIGHT = 30
-  const UlRef = ref<UlRef>(null)
+  const groupRef = ref<UlRef>(null)
   const listHeights = ref<number[]>([])
   const scrollY = ref(0)
   const currentIndex = ref(0)
@@ -49,7 +49,7 @@ export default function useFixed(props: any) {
 
   // 获取所有的主题块高度
   function calculate() {
-    const list = UlRef.value?.children as HTMLCollection
+    const list = groupRef.value?.children as HTMLCollection
     const listHeightsVal = listHeights.value
     let height = 0
 
@@ -68,7 +68,7 @@ export default function useFixed(props: any) {
   }
 
   return {
-    UlRef,
+    groupRef,
     onScroll,
     fixedTitle,
     fixedStyle,
