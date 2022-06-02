@@ -1,13 +1,17 @@
 <template>
   <Scroll class="index-list" ref="scrollRef" @scroll="onScroll" :probe-type="3">
-    <ul ref="UlRef">
+    <ul ref="groupRef">
       <li class="group" v-for="group in props.data" :key="group.title">
         <h2 class="title">{{ group.title }}</h2>
         <ul>
-          <li v-for="item in group.list" :key="item.id" class="item">
-            <img class="avatar" v-lazy="item.pic" /><span class="name">{{
-              item.name
-            }}</span>
+          <li
+            v-for="item in group.list"
+            :key="item.id"
+            class="item"
+            @click="selectSinger(item)"
+          >
+            <img class="avatar" v-lazy="item.pic" />
+            <span class="name">{{ item.name }}</span>
           </li>
         </ul>
       </li>
@@ -15,7 +19,11 @@
     <div class="fixed" v-show="fixedTitle" :style="fixedStyle">
       <div class="fixed-title">{{ fixedTitle }}</div>
     </div>
-    <div class="shortcut" @touchstart.stop.prevent="onShoutcutTouchStart">
+    <div
+      class="shortcut"
+      @touchstart.stop.prevent="onShoutcutTouchStart"
+      @touchmove.stop.prevent="onShoutcutTouchMove"
+    >
       <ul>
         <li
           class="item"
@@ -33,7 +41,7 @@
 
 <script setup lang="ts">
 import Scroll from '../Scroll/Scroll.vue'
-import { defineProps, PropType } from 'vue'
+import { defineProps, defineEmits, PropType } from 'vue'
 import useFixed from './use-fixed'
 import useShortcut from './use-shortcut'
 // eslint-disable-next-line vue/no-setup-props-destructure
@@ -47,13 +55,17 @@ const props = defineProps({
   },
 })
 
-const { UlRef, onScroll, fixedTitle, fixedStyle, currentIndex } =
+const { groupRef, onScroll, fixedTitle, fixedStyle, currentIndex } =
   useFixed(props)
 
-const { shortcutList, onShoutcutTouchStart, scrollRef } = useShortcut(
-  props,
-  UlRef
-)
+const { shortcutList, onShoutcutTouchStart, scrollRef, onShoutcutTouchMove } =
+  useShortcut(props, groupRef)
+
+const emit = defineEmits(['select'])
+
+const selectSinger = (singer: any) => {
+  emit('select', singer)
+}
 </script>
 
 <style lang="scss" scoped>

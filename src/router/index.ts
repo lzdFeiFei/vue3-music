@@ -23,6 +23,13 @@ const routes: Array<RouteRecordRaw> = [
     path: '/singer',
     name: 'Singer',
     component: () => import('@/views/singer/index.vue'),
+    children: [
+      {
+        path: ':id',
+        name: 'SingerDetail',
+        component: () => import('@/views/singer/singer-detail/index.vue'),
+      },
+    ],
   },
   {
     path: '/top-list',
