@@ -2,15 +2,21 @@
   <div class="music-list">
     <div class="back" @click="goBack"><i class="icon-back"></i></div>
     <h1 class="title">{{ props.title }}</h1>
-    <div class="bg-image" :style="bgImageStyle">
+    <div class="bg-image" :style="bgImageStyle" ref="bgImage">
       <div class="play-btn-wrapper">
         <div class="play-btn">
           <i class="icon-play"></i><span class="text">随机播放全部</span>
         </div>
       </div>
-      <div class="filter"></div>
+      <div class="filter" :style="filterStyle"></div>
     </div>
-    <Scroll class="list" :probe-type="3" v-loading="loading">
+    <Scroll
+      class="list"
+      :probe-type="3"
+      @scroll="onScroll"
+      v-loading="loading"
+      :style="scrollStyle"
+    >
       <div class="song-list-wrapper">
         <SongList :songs="props.songs"></SongList>
       </div>
@@ -19,10 +25,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineProps, PropType } from 'vue'
+import { computed, defineProps, onMounted, PropType, ref } from 'vue'
 import Scroll from '@/components/Scroll/Scroll.vue'
 import SongList from '@/components/SongList/SongList.vue'
 import { useRouter } from 'vue-router'
+
+const RESERVED_HEIGHT = 40
 
 const router = useRouter()
 const goBack = () => {
@@ -51,10 +59,68 @@ const props = defineProps({
   },
 })
 
+const scrollY = ref(0)
+const maxTranslateY = ref(0)
+const imageHeight = ref(0)
+const bgImage = ref<HTMLDivElement | null>(null)
+
 const bgImageStyle = computed(() => {
-  return {
-    backgroundImage: `url(${props.pic})`,
+  const scrollYVal = scrollY.value
+  let zIndex = 0
+  let paddingTop = '70%'
+  let height = '0px'
+  let translateZ = 0
+
+  if (scrollYVal > maxTranslateY.value) {
+    zIndex = 10
+    height = `${RESERVED_HEIGHT}px`
+    paddingTop = '0'
+    translateZ = 1
   }
+
+  let scale = 1
+  if (scrollYVal < 0) {
+    scale = 1 + Math.abs(scrollYVal / imageHeight.value)
+  }
+
+  return {
+    zIndex,
+    height,
+    paddingTop,
+    backgroundImage: `url(${props.pic})`,
+    transform: `scale(${scale})translateZ(${translateZ}px)`,
+  }
+})
+const scrollStyle = computed(() => {
+  return {
+    top: `${imageHeight.value}px`,
+  }
+})
+const filterStyle = computed(() => {
+  let blur = 0
+  const scrollYVal = scrollY.value
+  const imageHeightVal = imageHeight.value
+
+  if (scrollYVal > 0) {
+    blur =
+      Math.min(
+        maxTranslateY.value / imageHeightVal,
+        scrollYVal / imageHeightVal
+      ) * 20
+  }
+
+  return {
+    backdropFilter: `blur(${blur}px)`,
+  }
+})
+
+const onScroll = (pos: any) => {
+  scrollY.value = -pos.y
+}
+
+onMounted(() => {
+  imageHeight.value = bgImage.value?.clientHeight as number
+  maxTranslateY.value = imageHeight.value - RESERVED_HEIGHT
 })
 </script>
 

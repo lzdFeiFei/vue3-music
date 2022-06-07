@@ -11,9 +11,15 @@
 
 <script setup lang="ts">
 import { computed, defineProps, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { getSingerDetail } from '@/service/singer'
 import { processSongs } from '@/service/songs'
 import MusicList from '@/components/MusicList.vue'
+import { SINGER_KEY } from '@/assets/js/constant'
+import storage from 'good-storage'
+
+const route = useRoute()
+const router = useRouter()
 
 const props = defineProps({
   selectedSinger: {
@@ -23,11 +29,27 @@ const props = defineProps({
 })
 
 const title = computed(() => {
-  return props.selectedSinger.name
+  const singer = computedSinger.value
+  return singer ? singer.name : ''
 })
 
 const pic = computed(() => {
-  return props.selectedSinger.pic
+  const singer = computedSinger.value
+  return singer ? singer.pic : ''
+})
+
+const computedSinger = computed(() => {
+  let ret = null
+  const singer = props.selectedSinger
+  if (Object.keys(singer).length > 0) {
+    ret = singer
+  } else {
+    const cached = storage.session.get(SINGER_KEY)
+    if (cached && cached.mid === route.params.id) {
+      ret = cached
+    }
+  }
+  return ret
 })
 
 const result = ref<{ songs: any[] }>({ songs: [] })
@@ -35,12 +57,17 @@ const songs = ref<any[]>([])
 
 const loading = ref(true)
 async function getResult() {
-  result.value = await getSingerDetail(props.selectedSinger?.mid)
+  result.value = await getSingerDetail(computedSinger.value.mid)
   songs.value = await processSongs(result.value.songs)
   loading.value = false
 }
 
-getResult()
+if (!computedSinger.value) {
+  const path = route.matched[0].path
+  router.push(path)
+} else {
+  getResult()
+}
 // const result = await getSingerDetail(props.selectedSinger?.mid)
 </script>
 <!-- <script lang="ts">
