@@ -15,6 +15,7 @@
       :probe-type="3"
       @scroll="onScroll"
       v-loading="loading"
+      v-no-result="noResult"
       :style="scrollStyle"
     >
       <div class="song-list-wrapper">
@@ -112,6 +113,10 @@ const filterStyle = computed(() => {
   return {
     backdropFilter: `blur(${blur}px)`,
   }
+})
+
+const noResult = computed(() => {
+  return !props.loading && props.songs.length === 0
 })
 
 const onScroll = (pos: any) => {
