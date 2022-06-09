@@ -31,6 +31,7 @@ import Scroll from '@/components/Scroll/Scroll.vue'
 import SongList from '@/components/SongList/SongList.vue'
 import { useRouter } from 'vue-router'
 import { usePlayer } from '@/store/usePlayer'
+import { Songs } from '@/views/singer/types'
 
 const RESERVED_HEIGHT = 40
 
@@ -41,7 +42,7 @@ const goBack = () => {
 
 const props = defineProps({
   songs: {
-    type: Array as PropType<any[]>,
+    type: Array as PropType<Songs>,
     default: () => [],
   },
   title: {
@@ -120,7 +121,7 @@ const noResult = computed(() => {
   return !props.loading && props.songs.length === 0
 })
 
-const onScroll = (pos: any) => {
+const onScroll = (pos: { y: number }) => {
   scrollY.value = -pos.y
 }
 

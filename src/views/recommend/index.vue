@@ -31,10 +31,12 @@ import { ref } from 'vue'
 import { getRecommend } from '@/service/recommends'
 import Slider from '@/components/Slider/Slider.vue'
 import Scroll from '@/components/Scroll/Scroll.vue'
+import { Albums, Sliders, Recommends } from './types'
+
 const loading = ref(true)
-const sliders = ref<any>([])
-const albums = ref<any>([])
-getRecommend().then((res: any) => {
+const sliders = ref<Sliders[]>([])
+const albums = ref<Albums[]>([])
+getRecommend().then((res: Recommends) => {
   sliders.value = res.sliders
   albums.value = res.albums
   loading.value = false

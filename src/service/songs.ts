@@ -1,21 +1,26 @@
 import { get } from './base'
+import { Song, Songs } from '@/views/singer/types'
 
-export const processSongs = (songs: any[]) => {
+interface MidUrlMap {
+  [x: string]: string
+}
+
+export const processSongs = (songs: Songs) => {
   if (!songs.length) {
     return Promise.resolve(songs)
   }
-  return get('/api/getSongsUrl', {
-    mid: songs.map((song: any) => {
+  return get<{ map: MidUrlMap }>('/api/getSongsUrl', {
+    mid: songs.map((song: Song) => {
       return song.mid
     }),
-  }).then((res: any) => {
+  }).then((res: { map: MidUrlMap }) => {
     const map = res.map
     return songs
-      .map((song: any) => {
+      .map((song: Song) => {
         song.url = map[song.mid]
         return song
       })
-      .filter((song: any) => {
+      .filter((song: Song) => {
         return song.url && song.url.indexOf('vkey') > -1
       })
   })

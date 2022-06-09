@@ -19,9 +19,10 @@
 
 <script setup lang="ts">
 import { defineProps, PropType } from 'vue'
+import { Songs } from '@/views/singer/types'
 const props = defineProps({
   songs: {
-    type: Array as PropType<any[]>,
+    type: Array as PropType<Songs>,
     default: () => [],
   },
 })

@@ -17,23 +17,24 @@ import { getSingerList } from '@/service/singer'
 import IndexList from '@/components/IndexList/IndexList.vue'
 import { SINGER_KEY } from '@/assets/js/constant'
 import storage from 'good-storage'
+import { Singer, Singers, SingerList } from './types'
 
 const router = useRouter()
 
-const singers = ref<any>([])
-getSingerList().then((res: any) => {
+const singers = ref<Singers[]>([])
+getSingerList().then((res: SingerList) => {
   singers.value = res.singers
 })
 
-const selectedSinger = ref<any>()
-function selectSinger(singer: any) {
+const selectedSinger = ref<Singer>()
+function selectSinger(singer: Singer) {
   selectedSinger.value = singer
   storeSinger(singer)
   router.push({
     path: `/singer/${singer.mid}`,
   })
 }
-function storeSinger(singer: any) {
+function storeSinger(singer: Singer) {
   storage.session.set(SINGER_KEY, singer)
 }
 </script>

@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia'
 import { PLAY_MODE } from '@/assets/js/constant'
+import { Songs } from '@/views/singer/types'
 
 export const usePlayer = defineStore('player', {
   state: () => {
     return {
-      sequenceList: [] as any[],
-      playingList: [],
+      sequenceList: [] as Songs,
+      playingList: [] as Songs,
       playing: false,
       playMode: PLAY_MODE.sequence,
       currentIndex: 0,
@@ -18,10 +19,10 @@ export const usePlayer = defineStore('player', {
     },
   },
   actions: {
-    setSequenceList(list: any) {
+    setSequenceList(list: Songs) {
       this.sequenceList = list
     },
-    setPlayingList(list: any) {
+    setPlayingList(list: Songs) {
       this.playingList = list
     },
     setPlayingStatus(status: boolean) {
@@ -36,7 +37,7 @@ export const usePlayer = defineStore('player', {
     setFullScreen(fullScreen: boolean) {
       this.fullScreen = fullScreen
     },
-    selectPlay(list: any, index: number) {
+    selectPlay(list: Songs, index: number) {
       this.setSequenceList(list)
       this.setPlayingList(list)
       this.setPlayingStatus(true)

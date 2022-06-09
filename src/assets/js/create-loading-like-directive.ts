@@ -1,5 +1,5 @@
 import { createApp, DirectiveBinding, ComponentPublicInstance } from 'vue'
-import Loading from './Loading.vue'
+// import Loading from './Loading.vue'
 import { addClass, removeClass } from '@/assets/js/dom'
 
 // type El = HTMLElement & { instance: ComponentPublicInstance }

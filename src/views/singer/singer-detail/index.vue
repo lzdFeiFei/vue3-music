@@ -17,6 +17,7 @@ import { processSongs } from '@/service/songs'
 import MusicList from '@/components/MusicList.vue'
 import { SINGER_KEY } from '@/assets/js/constant'
 import storage from 'good-storage'
+import { Songs } from '../types'
 
 const route = useRoute()
 const router = useRouter()
@@ -52,8 +53,8 @@ const computedSinger = computed(() => {
   return ret
 })
 
-const result = ref<{ songs: any[] }>({ songs: [] })
-const songs = ref<any[]>([])
+const result = ref<{ songs: Songs }>({ songs: [] })
+const songs = ref<Songs>([])
 
 const loading = ref(true)
 async function getResult() {
