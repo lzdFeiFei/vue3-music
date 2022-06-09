@@ -1,9 +1,14 @@
 <template>
   <ul class="song-list">
-    <li class="item" v-for="(song, index) in props.songs" :key="song.id">
-      <div class="rank">
+    <li
+      class="item"
+      v-for="(song, index) in props.songs"
+      :key="song.id"
+      @click="selectItem(index)"
+    >
+      <!-- <div class="rank">
         <span>{{ index }}</span>
-      </div>
+      </div> -->
       <div class="content">
         <h2 class="name">{{ song.name }}</h2>
         <p class="desc"></p>
@@ -20,6 +25,11 @@ const props = defineProps({
     default: () => [],
   },
 })
+
+const emit = defineEmits(['select'])
+const selectItem = (index: number) => {
+  emit('select', index)
+}
 </script>
 
 <style lang="scss" scoped>

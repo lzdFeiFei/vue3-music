@@ -19,7 +19,7 @@
       :style="scrollStyle"
     >
       <div class="song-list-wrapper">
-        <SongList :songs="props.songs"></SongList>
+        <SongList :songs="props.songs" @select="selectItem"></SongList>
       </div>
     </Scroll>
   </div>
@@ -30,6 +30,7 @@ import { computed, defineProps, onMounted, PropType, ref } from 'vue'
 import Scroll from '@/components/Scroll/Scroll.vue'
 import SongList from '@/components/SongList/SongList.vue'
 import { useRouter } from 'vue-router'
+import { usePlayer } from '@/store/usePlayer'
 
 const RESERVED_HEIGHT = 40
 
@@ -121,6 +122,12 @@ const noResult = computed(() => {
 
 const onScroll = (pos: any) => {
   scrollY.value = -pos.y
+}
+
+// 点击播放歌曲
+const playerStore = usePlayer()
+const selectItem = (index: number) => {
+  playerStore.selectPlay(props.songs, index)
 }
 
 onMounted(() => {
